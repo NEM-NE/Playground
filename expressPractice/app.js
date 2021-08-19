@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const dotenv = require('dotenv');
 const path = require('path');
-
+const nunjucks = require('nunjucks');
 
 const indexRouter = require('./routes');
 const userRouter = require('./routes/user');
@@ -14,6 +14,12 @@ const userRouter = require('./routes/user');
 dotenv.config();
 const app = express();
 app.set('port', process.env.PORT || 3000);
+app.set('view engine', 'html');
+
+nunjucks.configure('views', {
+    express: app,
+    watch : true,
+})
 
 app.use(morgan('dev'));
 app.use('/', express.static(path.join(__dirname, 'public')));
@@ -69,18 +75,20 @@ app.get('/upload', (req, res) => {
 app.post('/upload',
     upload.fields([{name:'image1'}, {name : 'image2'}]),
     (req, res) => {
+        console.log('추가');
         console.log(req.files, req.body);
         res.send('ok');
     }
 );
 
-app.get('/', (req, res, next) => {
-    console.log('GET 요청에만 실행')
-})
-
 //  multer end
 
+// app.get('/', (req, res, next) => {
+//     console.log('GET 요청에만 실행')
+// })
+
 app.use('/', indexRouter);
+
 app.use('/user', userRouter);
 
 app.use((req, res, next) => {
