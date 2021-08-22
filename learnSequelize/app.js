@@ -27,7 +27,7 @@ sequelize.sync({force:false})
         console.log(err);
     })
 
-// 기본 미들웨어 셋팅
+// 기본 미들웨어 셋팅ㅇㅇ
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -54,7 +54,14 @@ app.use((err, req, res, next) => {
     res.locals.error = process.env.NODE_ENV !== 'production' ? err :{};
     res.status(err.status || 500);
     console.log('실행됭ㅁ2');
-    res.render('error');
+    /*
+        res.render vs res.send vs res.json
+
+        res.render => 설정한 템플릿 엔진을 사용하여 렌더링
+        res.send => 다양한 유형의 응답을제공
+        res.json => json 응답을 제공
+    */
+    res.render('error');    // error 파일을 찾아서 렌더링.
 })
 
 // 서버 작동 시작
