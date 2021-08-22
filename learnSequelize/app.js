@@ -27,7 +27,7 @@ sequelize.sync({force:false})
         console.log(err);
     })
 
-// 기본 미들웨어 셋팅ㅇㅇ
+// 기본 미들웨어 셋팅
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
