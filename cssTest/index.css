@@ -1,0 +1,19 @@
+header {
+    width: 100%;
+    height: 75px;
+    border: 1px solid black;
+}
+
+.logo {
+    float: left;
+}
+
+.member_info_box {
+    margin-left: 71%;
+    float: right;
+}
+
+.info_img,
+.info {
+    display: block;
+}
