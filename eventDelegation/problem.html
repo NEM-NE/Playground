@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .div1 {
+            border: 1px solid black;
+            width: 300px;
+            height: 300px;
+        }
+        .div2 {
+            border: 1px solid black;
+            width: 200px;
+            height: 200px;
+        }
+        .div3 {
+            border: 1px solid black;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        만약 div3를 클릭했을 때 이벤트 발생이 div3가 아닌 div2애서 발생하고 싶다면?
+        (div3는 div2와 div1를 포함하고 있다.)
+        (무조건 document.addEventListener를 사용해야한다.)
+    </p>
+    <div class='div1'>
+        div1
+        <div class='div2'>
+            div2
+            <div class='div3'>
+                div3
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getParent(target, className) {
+        if(target.tagName === 'BODY') return undefined;
+        if(target.className.includes(className)) return target;
+
+        return getParent(target.parentNode, className);
+        }
+
+        document.addEventListener('click', (e) => {
+            const target = getParent(e.target, 'div2');
+            if(!target) return;
+            
+            alert(target.className);
+        });
+    </script>
+</body>
+</html>

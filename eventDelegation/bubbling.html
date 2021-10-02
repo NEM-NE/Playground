@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .div1 {
+            border: 1px solid black;
+            width: 300px;
+            height: 300px;
+        }
+        .div2 {
+            border: 1px solid black;
+            width: 200px;
+            height: 200px;
+        }
+        .div3 {
+            border: 1px solid black;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class='div1'>
+        div1
+        <div class='div2'>
+            div2
+            <div class='div3'>
+                div3
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const divs = document.querySelectorAll('div');
+        divs.forEach(div => {
+            div1.addEventListener('click', (e) => {
+                console.dir(e.currentTarget);
+                console.dir(e.target);
+            });
+        });
+    </script>
+</body>
+</html>
