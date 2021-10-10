@@ -53,12 +53,15 @@ class Game extends React.Component {
     super(props);
     this.state = {
       history: [
+        //state 끌어올리기
         {squares: Array(9).fill(null)},
       ],
       xIsNext: true,
       stepNumber: 0,
       isDesc:true,
     }
+
+    this.changeSortWay.bind(this);
   }
 
   handleClick(i) {
@@ -78,7 +81,7 @@ class Game extends React.Component {
     });
   }
 
-  jumpTo(step) {
+  jumpTo = (step) => {
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0,
@@ -99,7 +102,7 @@ class Game extends React.Component {
         'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button onClick={this.jumpTo(move)}>{desc}</button>
         </li>
       );
     });
@@ -123,7 +126,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <button className='toggle' onClick={() => {this.changeSortWay()}}>{this.state.isDesc ? '내림차순 정렬하기' : '오름차순 정렬하기'}</button>
+          <button className='toggle' onClick={this.changeSortWay()}>{this.state.isDesc ? '내림차순 정렬하기' : '오름차순 정렬하기'}</button>
           <ol>{moves}</ol>
         </div>
       </div>
