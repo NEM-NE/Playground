@@ -10,7 +10,14 @@ export default class HomePage extends React.Component {
         return (
             <div>
                 <h1>HomePage!</h1>
-                <Link to='/about'><h1>About 페이지로 이동하기</h1></Link>
+                <Link to={{
+                    pathname:'/about',
+                    state: {
+                        hi:'fuck',
+                    }
+                }}>
+                        <h1>About 페이지로 이동하기</h1>
+                </Link>
             </div>
         )
     }

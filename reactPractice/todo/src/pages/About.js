@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 export default class AboutPage extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            hi:'hi',
+        }
     }
 
     render() {
@@ -11,6 +14,8 @@ export default class AboutPage extends React.Component {
             <div>
                 <h1>AboutPage!</h1>
                 <Link to='/'><h1>Home 페이지로 이동하기</h1></Link>
+                <h3>{this.state.hi}</h3>
+                <h3>{this.props.location.state.hi}</h3>
             </div>
         )
     }
