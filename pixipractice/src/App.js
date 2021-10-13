@@ -21,6 +21,7 @@ const App = () => {
   const [y, setY] = useState(5);
   const [users, setUsers] = useState([]);
   const map = useTilemapLoader(tileMap);
+  console.log(map);
   const stageRef = useRef(false);
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -83,5 +84,7 @@ const App = () => {
     </div>
   ) 
 };
+
+
 
 export default App;

@@ -3,7 +3,6 @@ const server = require('http').createServer(app);
 // http server를 socket.io server로 upgrade한다
 const socketIo = require('socket.io');
 
-let id = 0;
 const userList = [];
 
 const io = socketIo(server, {
