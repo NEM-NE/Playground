@@ -25,7 +25,7 @@ io.on('connection', function(socket) {
     userList[userData.id] = userData;
     
     // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
-    userList[userData.id].socket.broadcast.emit('joinOtherUser', {x:userData.x, y:userData.y, id:userData.id});
+    socket.broadcast.emit('joinOtherUser', {x:userData.x, y:userData.y, id:userData.id});
   });
 
   socket.on("move", function({x, y, id}) {
@@ -33,7 +33,7 @@ io.on('connection', function(socket) {
     userList[id].x = x;
     userList[id].y = y;
     // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
-    userList[id].socket.broadcast.emit('move', {x, y, id});
+    socket.broadcast.emit('move', {x, y, id});
   });
 
 });

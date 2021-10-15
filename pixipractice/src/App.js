@@ -1,12 +1,9 @@
 import { Stage, Sprite } from '@inlet/react-pixi';
-import { Tilemap, useTilemapLoader } from 'react-pixi-tilemap';
 
 import { useRef, useState, useCallback, useEffect } from 'react';
 import io from "socket.io-client"; 
+import TileMap from './TileMap';
 
-
-const tileMap = process.env.PUBLIC_URL + '/stages/map.tmx';
-const tileMap2 = process.env.PUBLIC_URL + '/mapmaking/maps/custom/Gather Office 4/Gather Office 9.tmx';
 const socket = io("http://localhost:3000/");
 
 const id = prompt("아이디를 입력해주세요");
@@ -20,8 +17,7 @@ const App = () => {
   const [x, setX] = useState(3);
   const [y, setY] = useState(5);
   const [users, setUsers] = useState([]);
-  const map = useTilemapLoader(tileMap);
-  console.log(map);
+
   const stageRef = useRef(false);
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -70,7 +66,7 @@ const App = () => {
   return (
     <div onKeyDown={handleKeyDown} tabIndex={0}>
     <Stage width={width} height={height} ref={stageRef} renderOnComponentChange={true} >
-      <Tilemap map={map} >
+      <TileMap mapType={3} >
         <Sprite image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png" x={x * 30} y={y * 30} />
         {users.map(user => (
           <Sprite image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png" x={user.x * 30} y={user.y * 30} />
@@ -79,7 +75,7 @@ const App = () => {
           console.log(users),
           console.log(x, y)
           )}
-      </Tilemap>
+      </TileMap>
     </Stage>
     </div>
   ) 
