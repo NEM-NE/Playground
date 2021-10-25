@@ -48,6 +48,10 @@ type Point = {
     z?: number,
 }
 
+type Point3 = Point & {
+  z: number;
+}
+
 /*
 
 인터페이스
@@ -107,4 +111,86 @@ strictNullChecks를 설정했다면 사용하기 전에 undefined 테스트를 �
 
 function liveDangerously(x?: number | undefined) {
   console.log(x!.toFixed());
+}
+
+
+/*
+
+클래스에서 인터페이스 사용하기
+
+*/
+
+interface Shape {
+  getArea(): number;
+}
+
+class Circle implements Shape {
+  // public or private를 사용하면 변수 선언을 생략할 수 있다.
+  constructor(public radius: number){
+    this.radius = radius;
+  }
+  getArea(): number {
+    return this.radius * this.radius * Math.PI;
+  }
+}
+
+class Retangle implements Shape {
+  width: number;
+  height: number;
+
+  constructor(width: number, height: number){
+    this.width = width;
+    this.height = height;
+  }
+  getArea(): number {
+    return this.width * this.height;
+  }
+}
+
+const circle = new Circle(5);
+const retangle = new Retangle(5, 4);
+
+// 배열로 감싸서 사용할 수 있다. 단 공통 인터페이스의 부분만 사용가능
+const shapes: Shape[] = [circle, retangle];
+
+shapes.forEach((shape) => {
+  shape.getArea();
+})
+
+/*
+
+제네릭
+
+any 대신 사용
+
+*/
+
+function merge<A, B>(a: A, b: B): A & B {
+  return {
+    ...a,
+    ...b
+  };
+}
+
+const merged = merge({ foo: 1 }, { bar: 1 });
+
+interface Items<T> {
+  list: T[];
+}
+
+const items: Items<string> = {
+  list: ['a', 'b', 'c'],
+}
+
+class Queue<T> {
+  list: T[] = [];
+
+  constructor(public size: number){
+    this.size = size;
+    this.list.length = size;
+  }
+
+  get length(){
+    return this.list.length;
+  }
 }
