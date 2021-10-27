@@ -16,8 +16,8 @@ test('곱하기 테스트 B', () => {
     toBeUndefined => undefined면 통과 
     toBeDefined => defined면 통과
 
-    toBeTruthy
-    toBeFalsy
+    toBeTruthy => true면 통과
+    toBeFalsy => false면 통과
 */
 
 test('객체 비교는 이렇게 하는 겁니다.', () => {
@@ -245,7 +245,7 @@ test('mock test', () => {
 const mockFn4 = jest.fn();
 
 mockFn4
-    .mockReturnValueOnce(true)
+    .mockReturnValueOnce(true)  // 목 함수가 호출됐을 때 리턴 값을 지정한다.
     .mockReturnValueOnce(false)
     .mockReturnValueOnce(true)
     .mockReturnValueOnce(false)
@@ -258,3 +258,15 @@ test('mock test', () => {
 })
 
 // 비동기 함수는 mockResolvedValue사용 
+
+// 목함수 호출 여부 확인
+
+const mockFn5 = jest.fn();
+
+test('mock test5', () => {
+    mockFn5('1');
+
+    expect(mockFn5).toHaveBeenCalled();
+    expect(mockFn5).toHaveBeenCalledTimes(1);
+    expect(mockFn5).toBeCalledWith('1');    // 인자 비교
+})
