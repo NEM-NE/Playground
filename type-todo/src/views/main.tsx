@@ -1,8 +1,11 @@
 import React from "react";
 
+import InputBars from 
+
 function Main() {
     return (
-        <h1>main page!!</h1>
+        <InputBars />
+        <ToDoList />
     )
 }
 
