@@ -1,9 +1,9 @@
 /* eslint-disable import/no-import-module-exports */
-import express from 'express';
-import ProductController from '../controllers/product.js';
+const express = require('express');
+const ProductController = require('../controllers/product.js');
 
 const router = express.Router();
 
-router.get('/', ProductController.getItems);
+router.post('/', ProductController.createProduct);
 
-export default router;
+module.exports = router;
