@@ -8,3 +8,25 @@ exports.createProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getProducts = async (req, res, next) => {
+  try {
+    const products = await productModel.find({});
+    res.status(201).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getProductById = async (req, res, next) => {
+  try {
+    const product = await productModel.findById(req.params.id);
+    if (product) {
+      res.status(200).json(product);
+    } else {
+      res.status(404).send('Not Found!');
+    }
+  } catch (error) {
+    next(error);
+  }
+};
