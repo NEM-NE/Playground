@@ -17,10 +17,12 @@ app.use(express.json({ extends: true }));
 
 app.use('/api/product', productRoutes);
 
-app.use((error, req, res) => {
+app.use((error, req, res, next) => {
   res.status(500).json({ message: error.message });
 });
 
 app.listen(PORT, () => {
   console.log('Success!');
 });
+
+module.exports = app;
