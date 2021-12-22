@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const productModel = require('../models/Product.js');
 
 exports.createProduct = async (req, res, next) => {
@@ -26,6 +27,17 @@ exports.getProductById = async (req, res, next) => {
     } else {
       res.status(404).send('Not Found!');
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateProduct = async (req, res, next) => {
+  try {
+    const product = await productModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (product) {
+      res.status(200).json(product);
+    } else res.status(404).send();
   } catch (error) {
     next(error);
   }

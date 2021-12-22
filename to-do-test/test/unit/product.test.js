@@ -4,10 +4,12 @@ const productController = require('../../controllers/product.js');
 const productModel = require('../../models/Product');
 const newProduct = require('../data/new-product.json');
 const allProduct = require('../data/all-product.json');
+const updateProduct = require('../data/update-product.json');
 
 productModel.create = jest.fn();
 productModel.find = jest.fn();
 productModel.findById = jest.fn();
+productModel.findByIdAndUpdate = jest.fn();
 let req;
 let res;
 let next;
@@ -151,4 +153,66 @@ describe('Product Controller getbyId', () => {
     
     expect(next).toBeCalledWith(errorMessage);
   })
+})
+
+/*
+  1. 함수가 존재하는가?
+  2. 내부 함수가 제대로 동작하는가?
+  3. 성공적인 경우 데이터가 잘 전달이 되는가?
+  4. 업데이트 할 상품이 없다면 에러 처리
+  5. 그냥 에러처리
+*/
+describe('PUT /api/product', () => {
+  it('함수가 존재하는가?', () => {
+    expect(typeof productController.updateProduct).toBe('function');
+  });
+
+  it('내부 함수가 제대로 호출되는가?', async () => {
+    req.params.id = productId;
+    req.body = updateProduct;
+    await productController.updateProduct(req, res, next);
+    expect(productModel.findByIdAndUpdate).toBeCalledWith(req.params.id, req.body, { new: true });
+  });
+
+  it('성공적으로 200번 넘버를 반환하는가?', async () => {
+    req.params.id = productId;
+    req.body = updateProduct;
+    productModel.findByIdAndUpdate.mockReturnValue({
+      "name": "computer",
+      "description": "best computer",
+      "price": 1300
+    })
+
+    await productController.updateProduct(req, res, next);
+
+    expect(res.statusCode).toBe(200);
+    expect(res._getJSONData()).toStrictEqual({
+      "name": "computer",
+      "description": "best computer",
+      "price": 1300
+    });
+    expect(res._isEndCalled()).toBeTruthy();
+  });
+
+  it('업데이트 할 상품이 없다면 404 에러 처리', async () => {
+    req.params.id = "1241551512";
+    req.body = updateProduct;
+    productModel.findByIdAndUpdate.mockReturnValue(undefined);
+
+    await productController.updateProduct(req, res, next);
+
+    expect(res.statusCode).toBe(404);
+    expect(res._isEndCalled()).toBeTruthy();
+  });
+
+  it('DB 에러 처리', async () => {
+    const errorMessage = { message : 'DB Error!'};
+    const rejectedPromise = Promise.reject(errorMessage);
+    productModel.findByIdAndUpdate.mockReturnValue(rejectedPromise);
+
+    await productController.updateProduct(req, res, next);
+    
+    expect(next).toBeCalledWith(errorMessage);
+  });
+  
 })

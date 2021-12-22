@@ -2,6 +2,7 @@
 const request = require('supertest');
 const app = require('../../server');
 const newProduct = require('../data/new-product.json');
+const updateProduct = require('../data/update-product.json');
 
 let firstProduct;
 
@@ -55,5 +56,25 @@ it('NotFound error GET /api/product/:id', async () => {
   expect(response.statusCode).toBe(404);
   expect(response.body.name).toBeUndefined();
   expect(response.body.description).toBeUndefined();
+})
 
+
+
+it('PUT /api/product/:id', async () => {
+  const response = await request(app)
+    .put(`/api/product/61c035808ef643d32e4b0c16`)
+    .send(updateProduct);
+
+  expect(response.statusCode).toBe(200);
+  expect(response.body.price).toBe(updateProduct.price);
+  expect(response.body.name).toBeDefined();
+  expect(response.body.description).toBeDefined();
+})
+
+it('PUT /api/product/:id 404 Error', async () => {
+  const response = await request(app)
+    .put(`/api/product/${"61c028e333d6df1a236a749b"}`)
+    .send(updateProduct);
+  
+  expect(response.statusCode).toBe(404);
 })
