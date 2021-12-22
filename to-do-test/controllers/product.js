@@ -42,3 +42,15 @@ exports.updateProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteProduct = async (req, res, next) => {
+  try {
+    const result = await productModel.findByIdAndDelete(req.params.id);
+
+    if (result) {
+      res.status(200).json(result);
+    } else res.status(404).send();
+  } catch (error) {
+    next(error);
+  }
+};

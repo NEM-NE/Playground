@@ -62,7 +62,7 @@ it('NotFound error GET /api/product/:id', async () => {
 
 it('PUT /api/product/:id', async () => {
   const response = await request(app)
-    .put(`/api/product/61c035808ef643d32e4b0c16`)
+    .put(`/api/product/${firstProduct._id}`)
     .send(updateProduct);
 
   expect(response.statusCode).toBe(200);
@@ -73,8 +73,24 @@ it('PUT /api/product/:id', async () => {
 
 it('PUT /api/product/:id 404 Error', async () => {
   const response = await request(app)
-    .put(`/api/product/${"61c028e333d6df1a236a749b"}`)
+    .put(`/api/product/61c028e333d6df1a236a749b`)
     .send(updateProduct);
+  
+  expect(response.statusCode).toBe(404);
+})
+
+it('DELETE /api/product/:id', async () => {
+  const response = await request(app)
+    .delete(`/api/product/${firstProduct._id}`)
+  
+  expect(response.statusCode).toBe(200);
+  expect(response.body.name).toBeDefined();
+  expect(response.body.description).toBeDefined();
+})
+
+it('DELETE /api/product/:id 404 Error', async () => {
+  const response = await request(app)
+    .delete(`/api/product/61c0325b29da909497942492`);
   
   expect(response.statusCode).toBe(404);
 })

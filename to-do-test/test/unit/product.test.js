@@ -10,6 +10,8 @@ productModel.create = jest.fn();
 productModel.find = jest.fn();
 productModel.findById = jest.fn();
 productModel.findByIdAndUpdate = jest.fn();
+productModel.findByIdAndDelete = jest.fn();
+
 let req;
 let res;
 let next;
@@ -215,4 +217,57 @@ describe('PUT /api/product', () => {
     expect(next).toBeCalledWith(errorMessage);
   });
   
+})
+
+/*
+ 1. 함수가 존재하는가?
+ 2. db.delete 메서드가 조건에 맞게 동작할 수 있도록 존재하는가?
+ 3. 실제로 성공적으로 반환하는가?
+ 4. 해당 아이디가 없는 경우 404
+ 5. 로직 에러가 발생한 경우 500
+*/
+describe('DELETE /api/product/:id ', () => {
+  beforeEach(() => {
+    req.params.id = 'idddd';
+  })
+
+  it('함수가 존재하는가?', () => {
+    expect(typeof productController.deleteProduct).toBe('function');
+  })
+
+  it('db.delete 메서드가 조건에 맞게 동작할 수 있도록 존재하는가?', async () => {
+    await productController.deleteProduct(req, res, next);
+
+    expect(productModel.findByIdAndDelete).toBeCalledWith(req.params.id);
+  })
+
+  it('실제로 성공적으로 변환하는가?', async () => {
+    productModel.findByIdAndDelete.mockReturnValue(newProduct);
+
+    await productController.deleteProduct(req, res, next);
+
+    expect(res.statusCode).toBe(200);
+    expect(res._getJSONData()).toStrictEqual(newProduct);
+    expect(res._isEndCalled()).toBeTruthy();
+  })
+
+  it('해당 아이디가 없는 경우 404', async () => {
+    productModel.findByIdAndDelete.mockReturnValue(undefined);
+
+    await productController.deleteProduct(req, res, next);
+
+    expect(res.statusCode).toBe(404);
+    expect(res._isEndCalled()).toBeTruthy();
+  })
+
+  it('로직 에러가 발생한 경우 500', async () => {
+    const errorMessage = { message : 'Server Error!' };
+    const rejectedPromise = Promise.reject(errorMessage)
+    productModel.findByIdAndDelete.mockReturnValue(rejectedPromise);
+
+    await productController.deleteProduct(req, res, next);
+
+    expect(next).toBeCalledWith(errorMessage);
+  })
+
 })
