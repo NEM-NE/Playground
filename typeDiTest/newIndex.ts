@@ -10,9 +10,7 @@ class Weapon {
 
 @Service()
 class Gun extends Weapon {
-    public attack() {
-        console.log('shoot!!!');
-    }
+
 }
 
 @Service()
@@ -24,11 +22,13 @@ class User {
     }
 }
 
-const user: User = Container.get(User);
+let user: User = Container.get(User);
+
+user.attack();
+user.attack = () => {console.log('zzzzzz')};
 
 user.attack();
 
-const myToken = new Token('SECRET_VALUE_KEY');
-Container.set(myToken, Weapon);
-const test = Container.get(myToken);
-console.log(test);
+const user2 = new User(new Weapon());
+
+user2.attack();
