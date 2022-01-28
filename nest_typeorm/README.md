@@ -5,6 +5,7 @@
 - nestJS 철학
 - Module이란?
 - Service, Provider란?
+- 데코레이터
 - DTO란?
 - class-validation, class-tranform
 - pipes란?
