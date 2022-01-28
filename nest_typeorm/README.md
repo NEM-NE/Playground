@@ -8,3 +8,6 @@
 - DTO란?
 - class-validation, class-tranform
 - pipes란?
+- TypeORM이란?
+- Entity란?
+- Repository란?
