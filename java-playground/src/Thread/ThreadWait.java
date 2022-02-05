@@ -2,6 +2,13 @@ package Thread;
 
 import java.util.ArrayList;
 
+/*
+
+    쓰레드가 동기화된 자원을 오랫동안 가지고 있으면 다른 쓰레드가 접근 할 수 없어 계속 기다려야함.
+    그래서 wait()를 통해 동기화된 자원을 반납하고 notify()를 통해 다시 락을 받는다.
+
+ */
+
 class Customer implements Runnable {
     private Table table;
     private String food;
@@ -20,18 +27,12 @@ class Customer implements Runnable {
 
             String name = Thread.currentThread().getName();
 
-            if(eatFood(this.food)){
-                System.out.println(name + " ate a " + this.food);
-            }else {
-                System.out.println(name + " can't eat a " + this.food);
-            }
+            table.remove(food);
+            System.out.println(name + " ate a " + this.food);
 
         }
     }
 
-    boolean eatFood(String dish) {
-        return this.table.remove(dish);
-    }
 }
 
 class Cook implements Runnable {
@@ -48,7 +49,7 @@ class Cook implements Runnable {
             table.add(table.dishNames[idx]);
 
             try {
-                Thread.sleep(1);
+                Thread.sleep(10);
             } catch (InterruptedException e) {}
         }
     }
@@ -60,20 +61,52 @@ class Table {
 
     private ArrayList<String> dishes = new ArrayList<String>();
 
-    public void add(String dish){
-        if(dishes.size() >= MAX_FOOD) return;
+    public synchronized void add(String dish){
+        while(dishes.size() >= MAX_FOOD){
+            String name = Thread.currentThread().getName();
+            System.out.println(name + " is waiting. ");
+            try {
+                wait();
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         dishes.add(dish);
+        notify();
         System.out.println("DISHES: " + dishes.toString());
     }
 
-    public boolean remove(String dish){
-        for(int i = 0; i < dishes.size(); i++){
-            if(dish.equals(dishes.get(i))){
-                dishes.remove(i);
-                return true;
+    public void remove(String dish){
+        synchronized (this) {
+            String name = Thread.currentThread().getName();
+            while(dishes.size() == 0) {
+                System.out.println(name + " is waiting... ");
+                try {
+                    wait();
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            while(true) {
+                for(int i = 0; i < dishes.size(); i++){
+                    if(dish.equals(dishes.get(i))){
+                        dishes.remove(i);
+                        notify();
+                        return;
+                    }
+                }
+
+                try {
+                    System.out.println(name + " is waiting... ");
+                    wait();
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        return false;
     }
 
     public int dishNum() {
@@ -90,7 +123,7 @@ public class ThreadWait {
         new Thread(new Customer(table, "burger"), "CUS2").start();
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {}
         System.exit(0);
     }
