@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-16">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="lib/ecj-4.20.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat-dbcp.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat-embed-core.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat-embed-el.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat-embed-jasper.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat-embed-programmatic.jar"/>
+	<classpathentry kind="lib" path="lib/tomcat-embed-websocket.jar"/>
+	<classpathentry kind="output" path="webapp/WEB-INF/classes"/>
+</classpath>
