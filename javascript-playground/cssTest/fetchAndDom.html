@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>What Can JavaScript Do?</h2>
+
+    <div id="demo">JavaScript can change HTML content.</div>
+
+    <button type="button" onclick="sendRequest()">Click Me!</button>
+    <script>
+      async function sendRequest() {
+        // const result = "Hello! World!!!!";
+        const result = await (
+          await fetch("http://localhost:8080", {
+            method: "GET",
+            headers: {},
+          })
+        ).body;
+        const demoDiv = document.querySelector("#demo");
+        demoDiv.innerHTML = result;
+        demoDiv.style.backgroundColor = "red";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>css Test!</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .wrap {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+      }
+      .ani {
+        margin: 5%;
+        background: red;
+        width: 100px;
+        height: 100px;
+      }
+
+      .transition {
+        margin: 5%;
+        width: 100px;
+        height: 100px;
+        background-color: peru;
+        transition: 1s;
+      }
+
+      .transition:hover {
+        width: 150px;
+        height: 150px;
+        transform: translateY(-50px);
+        background-color: blueviolet;
+      }
+
+      .move:hover {
+        transform: translate(50px, 50px);
+      }
+
+      .scale:hover {
+        transform: scale(1.5);
+      }
+
+      .rotate:hover {
+        transform: rotate(30deg);
+      }
+
+      .skew:hover {
+        transform: skew(30deg);
+      }
+
+      .change {
+        margin: 5%;
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+        animation-name: change-bg;
+        animation-duration: 3s;
+        animation-direction: alternate;
+        animation-iteration-count: infinite;
+        /* animation: change-bg 3s alternate infinite; */
+      }
+
+      @keyframes change-bg {
+        from {
+          background-color: blue;
+          border: 1px solid black;
+        }
+
+        to {
+          background-color: #a5d6ff;
+          border: 1px solid blue;
+          border-radius: 50%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="ani move">hi</div>
+      <div class="ani scale">hi2</div>
+      <div class="ani rotate">hi3</div>
+      <div class="ani skew">hi4</div>
+      <div class="transition">hi5</div>
+      <div class="change">hi6</div>
+    </div>
+  </body>
+</html>
