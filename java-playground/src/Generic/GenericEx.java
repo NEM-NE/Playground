@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class GenericEx {
     public static void main(String[] args) {
-        Box<Toy> box = new Box<Toy>();
-        ArrayList<? extends Fruit> list = new ArrayList<>();
-        list.add(new Toy());
+//        Box<Toy> box = new Box<Toy>();
+//        ArrayList<? extends Fruit> list = new ArrayList<>();
+//        list.add(new Toy());
     }
 }
 
