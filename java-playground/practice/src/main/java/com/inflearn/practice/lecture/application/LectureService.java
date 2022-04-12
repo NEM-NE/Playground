@@ -8,6 +8,7 @@ import com.inflearn.practice.lecture.domain.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,18 +18,21 @@ import java.util.stream.Collectors;
 public class LectureService {
     private final LectureRepository lectureRepository;
 
-    public List<LectureResponseDto> searchLecture(String category, Pageable pageable) {
-        List<Lecture> list = lectureRepository.findByCategory(category);
+//    @Transactional(readOnly = true)
+//    public List<LectureResponseDto> searchLecture(String category, Pageable pageable) {
+//        List<Lecture> list = lectureRepository.findByCategory(category);
+//
+//        return list.stream().map(LectureDtoAssembler::toLectureResponseDto).collect(Collectors.toList());
+//    }
 
-        return list.stream().map(LectureDtoAssembler::toLectureResponseDto).collect(Collectors.toList());
-    }
-
+    @Transactional(readOnly = true)
     public List<LectureResponseDto> findAll(){
         List<Lecture> list = lectureRepository.findAll();
 
         return list.stream().map(LectureDtoAssembler::toLectureResponseDto).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public LectureResponseDto findById(Long id) {
         Lecture lecture = lectureRepository.findById(id).orElseThrow(NoSuchLectureException::new);
 

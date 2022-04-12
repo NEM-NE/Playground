@@ -35,16 +35,16 @@ public class LectureController {
         return ResponseEntity.ok(lectureResponse);
     }
 
-    @GetMapping("/sort")
-    public ResponseEntity<List<LectureResponse>> searchLecture(
-            @RequestParam("category") String category,
-            @PageableDefault(size = 10) Pageable pageable)
-    {
-
-        List<LectureResponseDto> lectureResponseDtoList = lectureService.searchLecture(category, pageable);
-        List<LectureResponse> lectureResponses = LectureAssembler.toLectureResponses(lectureResponseDtoList);
-
-        return ResponseEntity.ok(lectureResponses);
-    }
+//    @GetMapping("/sort")
+//    public ResponseEntity<List<LectureResponse>> searchLecture(
+//            @RequestParam("category") String category,
+//            @PageableDefault(size = 10) Pageable pageable)
+//    {
+//
+//        List<LectureResponseDto> lectureResponseDtoList = lectureService.searchLecture(category, pageable);
+//        List<LectureResponse> lectureResponses = LectureAssembler.toLectureResponses(lectureResponseDtoList);
+//
+//        return ResponseEntity.ok(lectureResponses);
+//    }
 
 }

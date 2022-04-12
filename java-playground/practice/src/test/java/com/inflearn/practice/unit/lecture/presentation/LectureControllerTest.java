@@ -1,5 +1,6 @@
 package com.inflearn.practice.unit.lecture.presentation;
 
+import com.inflearn.practice.exception.lecture.NoSuchLectureException;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
 import com.inflearn.practice.lecture.application.dto.response.UserResponseDto;
 import com.inflearn.practice.lecture.domain.Category;
@@ -14,8 +15,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class LectureControllerTest extends ControllerTest {
 
@@ -49,7 +49,7 @@ class LectureControllerTest extends ControllerTest {
         return lectureResponseDtos;
     }
 
-    @DisplayName("Id로 특정 강좌 조회")
+    @DisplayName("id로 특정 강좌 조회")
     @Test
     public void findById() throws Exception {
         //given
@@ -67,6 +67,23 @@ class LectureControllerTest extends ControllerTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(content().string(responseBody));
+    }
+
+    @DisplayName("id로 특정 강좌 조회 - 없는 경우")
+    @Test
+    void findById_ExceptionThrow() throws Exception {
+        //given
+        given(lectureService.findById(anyLong())).willThrow(new NoSuchLectureException());
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/lectures/1")
+        );
+
+        //then
+        resultActions
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errorCode").value("AB404"));
     }
 
     private LectureResponseDto lectureResponseDto(long id) {
