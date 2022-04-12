@@ -34,4 +34,10 @@ public class LectureService {
 
         return LectureDtoAssembler.toLectureResponseDto(lecture);
     }
+
+//    public void insertLecture(LectureRequestDto lectureRequestDto) {
+//        Lecture lecture = LectureDtoAssembler.lecture(lectureRequestDto);
+//
+//        lectureRepository.save(lecture);
+//    }
 }

@@ -27,6 +27,8 @@ public class LectureAssembler {
                 .title(LectureResponseDto.getTitle())
                 .price(LectureResponseDto.getPrice())
                 .description(LectureResponseDto.getDescription())
+                .createdDate(LectureResponseDto.getCreatedDate())
+                .lastModifiedDate(LectureResponseDto.getLastModifiedDate())
                 .users(LectureResponseDto.getUsers().stream().map(user -> UserResponse.builder()
                         .id(user.getId())
                         .email(user.getEmail())

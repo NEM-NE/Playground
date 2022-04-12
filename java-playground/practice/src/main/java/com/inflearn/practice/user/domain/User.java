@@ -1,5 +1,6 @@
 package com.inflearn.practice.user.domain;
 
+import com.inflearn.practice.common.BaseTimeEntity;
 import com.inflearn.practice.lecture.domain.users.LectureUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,3 +33,4 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<LectureUser> lectures;
 }
+

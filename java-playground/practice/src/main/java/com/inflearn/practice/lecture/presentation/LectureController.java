@@ -47,4 +47,9 @@ public class LectureController {
         return ResponseEntity.ok(lectureResponses);
     }
 
+//    @PostMapping("/lecture")
+//    public ResponseEntity<Void> insertLecture(@RequestBody LectureRequest lectureRequest){
+//        lectureService.insertLecture(LectureAssembler.toLectureRequestDto(lectureRequest));
+//    }
+
 }

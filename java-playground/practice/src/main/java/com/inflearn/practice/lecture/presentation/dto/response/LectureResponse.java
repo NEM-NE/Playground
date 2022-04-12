@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,5 +20,7 @@ public class LectureResponse {
     private String title;
     private int price;
     private String description;
+    private LocalDateTime createdDate;
+    private LocalDateTime lastModifiedDate;
     private List<UserResponse> users;
 }

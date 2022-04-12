@@ -1,6 +1,8 @@
 package com.inflearn.practice.lecture.domain;
 
+import com.inflearn.practice.common.BaseTimeEntity;
 import com.inflearn.practice.lecture.domain.users.LectureUser;
+import com.inflearn.practice.teacher.domain.Teacher;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Lecture {
+public class Lecture extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +34,14 @@ public class Lecture {
     @Lob
     private String description;
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(nullable = false)
+    private LectureStatus status;
+
     @OneToMany(mappedBy = "lecture")
     private List<LectureUser> users;
+
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
 }
