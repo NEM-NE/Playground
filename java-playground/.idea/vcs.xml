@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/2021-pick-git" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/jwp-basic" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/spring-starter-book" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/spring5-for-beginner" vcs="Git" />
