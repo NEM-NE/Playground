@@ -1,17 +1,17 @@
 package com.inflearn.practice.exception.dto;
 
 public class ApiErrorResponse {
-    private String errorCode;
+	private String errorCode;
 
-    private ApiErrorResponse(){
+	private ApiErrorResponse() {
 
-    }
+	}
 
-    public ApiErrorResponse(String errorCode){
-        this.errorCode = errorCode;
-    }
+	public ApiErrorResponse(String errorCode) {
+		this.errorCode = errorCode;
+	}
 
-    public String getErrorCode() {
-        return errorCode;
-    }
+	public String getErrorCode() {
+		return errorCode;
+	}
 }

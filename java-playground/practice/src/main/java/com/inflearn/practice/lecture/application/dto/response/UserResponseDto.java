@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserResponseDto {
 
-    private Long id;
-    private String email;
-    private String name;
+	private Long id;
+	private String email;
+	private String name;
 
-    public UserResponseDto(Long id, String email, String name){
-        this.id = id;
-        this.email = email;
-        this.name = name;
-    }
+	public UserResponseDto(Long id, String email, String name) {
+		this.id = id;
+		this.email = email;
+		this.name = name;
+	}
 }

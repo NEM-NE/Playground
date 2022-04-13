@@ -1,12 +1,12 @@
 package com.inflearn.practice.lecture.domain.repository;
 
-import com.inflearn.practice.lecture.domain.Category;
-import com.inflearn.practice.lecture.domain.Lecture;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import com.inflearn.practice.lecture.domain.Lecture;
 
 public interface LectureRepository extends JpaRepository<Lecture, Long> {
 
-    List<Lecture> findByCategory(String category);
+	List<Lecture> findByCategory(String category);
 }
