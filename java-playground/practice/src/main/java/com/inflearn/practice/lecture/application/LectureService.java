@@ -8,8 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.inflearn.practice.exception.lecture.NoSuchLectureException;
 import com.inflearn.practice.lecture.application.dto.LectureDtoAssembler;
+import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
 import com.inflearn.practice.lecture.domain.Lecture;
+import com.inflearn.practice.lecture.domain.LectureStatus;
 import com.inflearn.practice.lecture.domain.repository.LectureRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,13 +20,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class LectureService {
 	private final LectureRepository lectureRepository;
-
-	//    @Transactional(readOnly = true)
-	//    public List<LectureResponseDto> searchLecture(String category, Pageable pageable) {
-	//        List<Lecture> list = lectureRepository.findByCategory(category);
-	//
-	//        return list.stream().map(LectureDtoAssembler::toLectureResponseDto).collect(Collectors.toList());
-	//    }
 
 	@Transactional(readOnly = true)
 	public List<LectureResponseDto> findAll() {
@@ -40,9 +35,18 @@ public class LectureService {
 		return LectureDtoAssembler.toLectureResponseDto(lecture);
 	}
 
-	//    public void insertLecture(LectureRequestDto lectureRequestDto) {
-	//        Lecture lecture = LectureDtoAssembler.lecture(lectureRequestDto);
-	//
-	//        lectureRepository.save(lecture);
-	//    }
+	public Long insertOne(LectureRequestDto lectureRequestDto) {
+		Lecture lecture = Lecture.builder()
+			.title(lectureRequestDto.getTitle())
+			.description(lectureRequestDto.getDescription())
+			.category(lectureRequestDto.getCategory())
+			.price(lectureRequestDto.getPrice())
+			.teacher(null) // 추후에 불러오는 코드 추가
+			.status(LectureStatus.PAUSE)
+			.build();
+
+		Lecture result = lectureRepository.save(lecture);
+
+		return result.getId();
+	}
 }

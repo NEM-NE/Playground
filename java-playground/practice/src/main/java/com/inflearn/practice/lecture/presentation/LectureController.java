@@ -1,18 +1,25 @@
 package com.inflearn.practice.lecture.presentation;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.inflearn.practice.lecture.application.LectureService;
+import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
 import com.inflearn.practice.lecture.presentation.dto.LectureAssembler;
+import com.inflearn.practice.lecture.presentation.dto.request.LectureRequest;
 import com.inflearn.practice.lecture.presentation.dto.response.LectureResponse;
 
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,13 +30,12 @@ public class LectureController {
 	@GetMapping
 	public ResponseEntity<List<LectureResponse>> findAll() {
 		List<LectureResponseDto> lectureResponseDtoList = lectureService.findAll();
-
 		List<LectureResponse> lectureResponses = LectureAssembler.toLectureResponses(lectureResponseDtoList);
 
 		return ResponseEntity.ok(lectureResponses);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/lecture/{id}")
 	public ResponseEntity<LectureResponse> findById(@PathVariable Long id) {
 		LectureResponseDto lectureResponseDto = lectureService.findById(id);
 		LectureResponse lectureResponse = LectureAssembler.toLectureResponse(lectureResponseDto);
@@ -37,16 +43,11 @@ public class LectureController {
 		return ResponseEntity.ok(lectureResponse);
 	}
 
-	//    @GetMapping("/sort")
-	//    public ResponseEntity<List<LectureResponse>> searchLecture(
-	//            @RequestParam("category") String category,
-	//            @PageableDefault(size = 10) Pageable pageable)
-	//    {
-	//
-	//        List<LectureResponseDto> lectureResponseDtoList = lectureService.searchLecture(category, pageable);
-	//        List<LectureResponse> lectureResponses = LectureAssembler.toLectureResponses(lectureResponseDtoList);
-	//
-	//        return ResponseEntity.ok(lectureResponses);
-	//    }
+	@PostMapping("/lecture")
+	public ResponseEntity<Long> insertOne(@Validated @RequestBody LectureRequest lectureRequest) {
+		LectureRequestDto lectureRequestDto = LectureAssembler.toLectureRequestDto(lectureRequest);
+		Long lectureId = lectureService.insertOne(lectureRequestDto);
 
+		return ResponseEntity.status(HttpStatus.CREATED).body(lectureId);
+	}
 }
