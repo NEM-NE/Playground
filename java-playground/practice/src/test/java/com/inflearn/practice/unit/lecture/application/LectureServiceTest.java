@@ -16,8 +16,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.inflearn.practice.lecture.application.LectureService;
+import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
 import com.inflearn.practice.lecture.domain.Lecture;
+import com.inflearn.practice.lecture.domain.LectureStatus;
 import com.inflearn.practice.lecture.domain.repository.LectureRepository;
 import com.inflearn.practice.lecture.domain.users.LectureUser;
 
@@ -43,9 +45,10 @@ class LectureServiceTest {
 		List<LectureResponseDto> list = lectureService.findAll();
 
 		//then
-		assertThat(list.size()).isEqualTo(2);
+		assertThat(list).hasSize(2);
 	}
 
+	@DisplayName("아이디로 강좌를 가져온다.")
 	@Test
 	void findById() {
 		//given
@@ -57,5 +60,31 @@ class LectureServiceTest {
 
 		//then
 		assertThat(lectureResponseDto).isNotNull();
+	}
+
+	@DisplayName("강좌를 등록한다.")
+	@Test
+	void insertOne() {
+		//given
+		LectureRequestDto lectureRequestDto = LectureRequestDto.builder()
+			.title("test")
+			.description("hi")
+			.build();
+
+		Lecture lecture = Lecture.builder()
+			.id(1L)
+			.status(LectureStatus.PAUSE)
+			.title("test")
+			.description("hi")
+			.users(new ArrayList<>())
+			.build();
+
+		given(lectureRepository.save(any(Lecture.class))).willReturn(lecture);
+
+		//when
+		Long id = lectureService.insertOne(lectureRequestDto);
+
+		//then
+		assertThat(id).isEqualTo(1L);
 	}
 }
