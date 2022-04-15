@@ -88,4 +88,39 @@ class LectureServiceTest {
 		//then
 		assertThat(id).isEqualTo(1L);
 	}
+
+	@DisplayName("강좌를 수정한다.")
+	@Test
+	void update() {
+		//given
+		Lecture lecture = Lecture.builder()
+			.id(1L)
+			.title("hihi")
+			.description("temp")
+			.teacher(new Teacher())
+			.users(new ArrayList<LectureUser>())
+			.build();
+
+		Lecture newLecture = Lecture.builder()
+			.id(1L)
+			.title("hihi")
+			.description("newContent")
+			.teacher(new Teacher())
+			.users(new ArrayList<LectureUser>())
+			.build();
+
+		LectureRequestDto lectureRequestDto = LectureRequestDto.builder()
+			.title("hihi")
+			.description("newContent")
+			.build();
+
+		given(lectureRepository.findById(anyLong())).willReturn(Optional.ofNullable(lecture));
+		given(lectureRepository.save(any())).willReturn(newLecture);
+
+		//when
+		LectureResponseDto lectureResponseDto = lectureService.update(1L, lectureRequestDto);
+
+		//then
+		assertThat(lectureResponseDto.getDescription()).isEqualTo("newContent");
+	}
 }

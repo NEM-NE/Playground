@@ -49,4 +49,14 @@ public class LectureService {
 
 		return result.getId();
 	}
+
+	public LectureResponseDto update(Long id, LectureRequestDto lectureRequestDto) {
+		Lecture lecture = lectureRepository.findById(id).orElseThrow(NoSuchLectureException::new);
+		//본인인지 검증 필요
+		lecture.update(lectureRequestDto);
+
+		Lecture newLecture = lectureRepository.save(lecture);
+
+		return LectureDtoAssembler.toLectureResponseDto(newLecture);
+	}
 }

@@ -14,8 +14,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.inflearn.practice.exception.lecture.NoSuchLectureException;
+import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
 import com.inflearn.practice.lecture.domain.Category;
+import com.inflearn.practice.lecture.presentation.dto.LectureAssembler;
 import com.inflearn.practice.lecture.presentation.dto.request.LectureRequest;
 import com.inflearn.practice.lecture.presentation.dto.response.LectureResponse;
 import com.inflearn.practice.unit.ControllerTest;
@@ -201,5 +203,43 @@ class LectureControllerTest extends ControllerTest {
 		resultActions
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("errorCode").value("TEACHER_ID_MUST_HAVE_FILLED"));
+	}
+
+	@DisplayName("강좌 수정")
+	@Test
+	void update() throws Exception {
+		//given
+		final LectureRequest lectureRequest = LectureRequest.builder()
+				.title("testtest")
+				.description("changeContent")
+				.teacherId(1L)
+				.build();
+
+		final LectureResponseDto lectureResponseDto = LectureResponseDto.builder()
+				.title("testtest")
+				.description("changeContent")
+				.build();
+
+		final LectureResponse lectureResponse = LectureResponse.builder()
+			.title("testtest")
+			.description("changeContent")
+			.build();
+
+		given(lectureService.update(anyLong(), any(LectureRequestDto.class))).willReturn(lectureResponseDto);
+
+		String requestBody = objectMapper.writeValueAsString(lectureRequest);
+		String responseBody = objectMapper.writeValueAsString(lectureResponse);
+
+		//when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.put("/lectures/lecture/1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestBody)
+		);
+
+		//then
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(content().string(responseBody));
 	}
 }

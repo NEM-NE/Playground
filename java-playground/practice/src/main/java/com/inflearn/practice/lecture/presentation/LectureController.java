@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,5 +50,15 @@ public class LectureController {
 		Long lectureId = lectureService.insertOne(lectureRequestDto);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(lectureId);
+	}
+
+	@PutMapping("/lecture/{id}")
+	public ResponseEntity<LectureResponse> update(@PathVariable Long id, @Validated @RequestBody LectureRequest lectureRequest) {
+		LectureRequestDto lectureRequestDto = LectureAssembler.toLectureRequestDto(lectureRequest);
+
+		LectureResponseDto lectureResponseDto = lectureService.update(id, lectureRequestDto);
+		LectureResponse lectureResponse = LectureAssembler.toLectureResponse(lectureResponseDto);
+
+		return ResponseEntity.ok(lectureResponse);
 	}
 }

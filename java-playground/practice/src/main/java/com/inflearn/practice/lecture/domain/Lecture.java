@@ -1,6 +1,7 @@
 package com.inflearn.practice.lecture.domain;
 
 import com.inflearn.practice.common.BaseTimeEntity;
+import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.domain.users.LectureUser;
 import com.inflearn.practice.teacher.domain.Teacher;
 
@@ -46,4 +47,11 @@ public class Lecture extends BaseTimeEntity {
 	@ManyToOne
 	@JoinColumn(name = "teacher_id")
 	private Teacher teacher;
+
+	public void update(LectureRequestDto lectureRequestDto){
+		this.category = lectureRequestDto.getCategory();
+		this.title = lectureRequestDto.getTitle();
+		this.description = lectureRequestDto.getDescription();
+		this.price = lectureRequestDto.getPrice();
+	}
 }
