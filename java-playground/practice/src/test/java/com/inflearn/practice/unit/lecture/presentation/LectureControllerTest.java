@@ -15,9 +15,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.inflearn.practice.exception.lecture.NoSuchLectureException;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
-import com.inflearn.practice.lecture.application.dto.response.UserResponseDto;
 import com.inflearn.practice.lecture.domain.Category;
 import com.inflearn.practice.lecture.presentation.dto.request.LectureRequest;
+import com.inflearn.practice.lecture.presentation.dto.response.LectureResponse;
 import com.inflearn.practice.unit.ControllerTest;
 
 class LectureControllerTest extends ControllerTest {
@@ -29,7 +29,8 @@ class LectureControllerTest extends ControllerTest {
 		List<LectureResponseDto> lectureResponseDtos = lectureResponseDtos();
 		given(lectureService.findAll()).willReturn(lectureResponseDtos);
 
-		String response = objectMapper.writeValueAsString(lectureResponseDtos);
+		List<LectureResponse> lectureResponses = lectureResponse();
+		String response = objectMapper.writeValueAsString(lectureResponses);
 
 		//when
 		final ResultActions resultActions = mockMvc.perform(
@@ -52,6 +53,16 @@ class LectureControllerTest extends ControllerTest {
 		return lectureResponseDtos;
 	}
 
+	private List<LectureResponse> lectureResponse() {
+		List<LectureResponse> lectureResponse = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			LectureResponse dto = lectureResponse(i);
+			lectureResponse.add(dto);
+		}
+
+		return lectureResponse;
+	}
+
 	@DisplayName("id로 특정 강좌 조회")
 	@Test
 	void findById() throws Exception {
@@ -59,11 +70,12 @@ class LectureControllerTest extends ControllerTest {
 		LectureResponseDto lectureResponseDto = lectureResponseDto(1);
 		given(lectureService.findById(anyLong())).willReturn(lectureResponseDto);
 
-		String responseBody = objectMapper.writeValueAsString(lectureResponseDto);
+		LectureResponse lectureResponse = lectureResponse(1);
+		String responseBody = objectMapper.writeValueAsString(lectureResponse);
 
 		//when
 		final ResultActions resultActions = mockMvc.perform(
-			MockMvcRequestBuilders.get("/lectures/1")
+			MockMvcRequestBuilders.get("/lectures/lecture/1")
 		);
 
 		//then
@@ -80,7 +92,7 @@ class LectureControllerTest extends ControllerTest {
 
 		//when
 		final ResultActions resultActions = mockMvc.perform(
-			MockMvcRequestBuilders.get("/lectures/1")
+			MockMvcRequestBuilders.get("/lectures/lecture/1")
 		);
 
 		//then
@@ -90,15 +102,29 @@ class LectureControllerTest extends ControllerTest {
 	}
 
 	private LectureResponseDto lectureResponseDto(long id) {
-		LectureResponseDto dto = LectureResponseDto.builder()
+		return LectureResponseDto.builder()
 			.title("hi")
 			.price(17000)
 			.description("hi")
 			.id(id)
 			.category(Category.ALL)
-			.users(new ArrayList<UserResponseDto>())
+			.teacherName("nemne")
+			.teacherId(1L)
+			.userSize(10)
 			.build();
-		return dto;
+	}
+
+	private LectureResponse lectureResponse(long id) {
+		return LectureResponse.builder()
+			.title("hi")
+			.price(17000)
+			.description("hi")
+			.id(id)
+			.category(Category.ALL)
+			.teacherName("nemne")
+			.teacherId(1L)
+			.userSize(10)
+			.build();
 	}
 
 	@DisplayName("강좌 등록")

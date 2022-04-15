@@ -10,7 +10,6 @@ import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
 import com.inflearn.practice.lecture.presentation.dto.request.LectureRequest;
 import com.inflearn.practice.lecture.presentation.dto.response.LectureResponse;
-import com.inflearn.practice.lecture.presentation.dto.response.UserResponse;
 
 @Component
 public class LectureAssembler {
@@ -50,11 +49,9 @@ public class LectureAssembler {
 			.description(lectureResponseDto.getDescription())
 			.createdDate(lectureResponseDto.getCreatedDate())
 			.lastModifiedDate(lectureResponseDto.getLastModifiedDate())
-			.users(lectureResponseDto.getUsers().stream().map(user -> UserResponse.builder()
-				.id(user.getId())
-				.email(user.getEmail())
-				.name(user.getName())
-				.build()).collect(Collectors.toList()))
+			.teacherName(lectureResponseDto.getTeacherName())
+			.teacherId(lectureResponseDto.getTeacherId())
+			.userSize(lectureResponseDto.getUserSize())
 			.build();
 	}
 }

@@ -22,6 +22,7 @@ import com.inflearn.practice.lecture.domain.Lecture;
 import com.inflearn.practice.lecture.domain.LectureStatus;
 import com.inflearn.practice.lecture.domain.repository.LectureRepository;
 import com.inflearn.practice.lecture.domain.users.LectureUser;
+import com.inflearn.practice.teacher.domain.Teacher;
 
 @ExtendWith(MockitoExtension.class)
 class LectureServiceTest {
@@ -37,8 +38,8 @@ class LectureServiceTest {
 	void findAll() {
 		//given
 		List<Lecture> lectureList = new ArrayList<Lecture>();
-		lectureList.add(Lecture.builder().id(1L).users(new ArrayList<LectureUser>()).build());
-		lectureList.add(Lecture.builder().id(2L).users(new ArrayList<LectureUser>()).build());
+		lectureList.add(Lecture.builder().id(1L).users(new ArrayList<LectureUser>()).teacher(new Teacher()).build());
+		lectureList.add(Lecture.builder().id(2L).users(new ArrayList<LectureUser>()).teacher(new Teacher()).build());
 		given(lectureRepository.findAll()).willReturn(lectureList);
 
 		//when
@@ -52,7 +53,7 @@ class LectureServiceTest {
 	@Test
 	void findById() {
 		//given
-		Lecture lecture = Lecture.builder().users(new ArrayList<LectureUser>()).build();
+		Lecture lecture = Lecture.builder().users(new ArrayList<LectureUser>()).teacher(new Teacher()).build();
 		given(lectureRepository.findById(anyLong())).willReturn(Optional.of(lecture));
 
 		//when

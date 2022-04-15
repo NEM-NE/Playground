@@ -1,15 +1,13 @@
 package com.inflearn.practice.lecture.presentation.dto.response;
 
-import com.inflearn.practice.lecture.application.dto.response.UserResponseDto;
+import java.time.LocalDateTime;
+
 import com.inflearn.practice.lecture.domain.Category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder
@@ -23,5 +21,7 @@ public class LectureResponse {
 	private String description;
 	private LocalDateTime createdDate;
 	private LocalDateTime lastModifiedDate;
-	private List<UserResponse> users;
+	private String teacherName;
+	private Long teacherId;
+	private int userSize;
 }

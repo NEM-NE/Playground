@@ -1,22 +1,15 @@
 package com.inflearn.practice.lecture.application.dto;
 
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
-import com.inflearn.practice.lecture.application.dto.response.UserResponseDto;
 import com.inflearn.practice.lecture.domain.Lecture;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class LectureDtoAssembler {
 
-	public static LectureResponseDto toLectureResponseDto(Lecture lecture) {
+	private LectureDtoAssembler() {
+		throw new IllegalStateException("Utility Class");
+	}
 
-		List<UserResponseDto> list = lecture.getUsers().stream().map(item -> UserResponseDto.builder()
-			.id(item.getUser().getId())
-			.email(item.getUser().getEmail())
-			.name(item.getUser().getName())
-			.build()
-		).collect(Collectors.toList());
+	public static LectureResponseDto toLectureResponseDto(Lecture lecture) {
 
 		return LectureResponseDto.builder()
 			.id(lecture.getId())
@@ -26,7 +19,9 @@ public class LectureDtoAssembler {
 			.description(lecture.getDescription())
 			.createdDate(lecture.getCreatedDate())
 			.lastModifiedDate(lecture.getLastModifiedDate())
-			.users(list)
+			.teacherId(lecture.getTeacher().getId())
+			.teacherName(lecture.getTeacher().getName())
+			.userSize(lecture.getUsers().size())
 			.build();
 	}
 }
