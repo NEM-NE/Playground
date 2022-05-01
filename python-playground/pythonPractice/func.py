@@ -1,5 +1,5 @@
 def say_hello(who="nico"):
-  print("hello")
+  print(f"hello {who}")
 
 say_hello();
 say_hello("sungbin");
