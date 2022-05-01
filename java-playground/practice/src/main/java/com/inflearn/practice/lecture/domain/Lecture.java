@@ -1,6 +1,7 @@
 package com.inflearn.practice.lecture.domain;
 
 import com.inflearn.practice.common.BaseTimeEntity;
+import com.inflearn.practice.exception.lecture.AlreadyOpenLectureException;
 import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.domain.users.LectureUser;
 import com.inflearn.practice.teacher.domain.Teacher;
@@ -53,5 +54,13 @@ public class Lecture extends BaseTimeEntity {
 		this.title = lectureRequestDto.getTitle();
 		this.description = lectureRequestDto.getDescription();
 		this.price = lectureRequestDto.getPrice();
+	}
+
+	public void openLecture(){
+		if(getStatus() == LectureStatus.OPEN) {
+			throw new AlreadyOpenLectureException();
+		}
+
+		status = LectureStatus.OPEN;
 	}
 }

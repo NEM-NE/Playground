@@ -3,6 +3,7 @@ package com.inflearn.practice.lecture.presentation.dto.response;
 import java.time.LocalDateTime;
 
 import com.inflearn.practice.lecture.domain.Category;
+import com.inflearn.practice.lecture.domain.LectureStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class LectureResponse {
 	private String description;
 	private LocalDateTime createdDate;
 	private LocalDateTime lastModifiedDate;
+	private LectureStatus status;
 	private String teacherName;
 	private Long teacherId;
 	private int userSize;

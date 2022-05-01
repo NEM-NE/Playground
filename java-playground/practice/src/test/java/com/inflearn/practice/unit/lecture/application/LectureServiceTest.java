@@ -14,7 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
+import com.inflearn.practice.exception.lecture.AlreadyOpenLectureException;
 import com.inflearn.practice.lecture.application.LectureService;
 import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
@@ -122,5 +124,86 @@ class LectureServiceTest {
 
 		//then
 		assertThat(lectureResponseDto.getDescription()).isEqualTo("newContent");
+	}
+
+	@DisplayName("강좌를 오픈한다.")
+	@Test
+	void open() {
+		//given
+		Lecture lecture = Lecture.builder()
+			.id(1L)
+			.title("hihi")
+			.status(LectureStatus.FUTURE)
+			.teacher(new Teacher())
+			.users(new ArrayList<LectureUser>())
+			.build();
+
+		Lecture openLecture = Lecture.builder()
+			.id(1L)
+			.title("hihi")
+			.status(LectureStatus.OPEN)
+			.teacher(new Teacher())
+			.users(new ArrayList<LectureUser>())
+			.build();
+
+		given(lectureRepository.findById(anyLong())).willReturn(Optional.ofNullable(lecture));
+		given(lectureRepository.save(any())).willReturn(openLecture);
+
+		//when
+		LectureResponseDto result = lectureService.open(1L);
+		//then
+		assertThat(result.getStatus()).isEqualTo(LectureStatus.OPEN);
+	}
+
+	@DisplayName("강좌를 오픈한다. - 이미 오픈된 강좌일 경우")
+	@Test
+	void open_duplicated() {
+		//given
+		Lecture lecture = Lecture.builder()
+			.id(1L)
+			.title("hihi")
+			.status(LectureStatus.OPEN)
+			.teacher(new Teacher())
+			.users(new ArrayList<LectureUser>())
+			.build();
+
+		Lecture openLecture = Lecture.builder()
+			.id(1L)
+			.title("hihi")
+			.status(LectureStatus.OPEN)
+			.teacher(new Teacher())
+			.users(new ArrayList<LectureUser>())
+			.build();
+
+		given(lectureRepository.findById(anyLong())).willReturn(Optional.ofNullable(lecture));
+
+		//when
+		assertThatCode(() -> lectureService.open(1L))
+			.isInstanceOf(AlreadyOpenLectureException.class)
+			.hasFieldOrPropertyWithValue("errorCode", "AB500")
+			.hasFieldOrPropertyWithValue("httpStatus", HttpStatus.BAD_REQUEST)
+			.hasFieldOrPropertyWithValue("message", "이미 오픈된 강좌 개설 에러");
+	}
+
+	@DisplayName("강좌를 삭제한다.")
+	@Test
+	void delete(){
+		//given
+		Lecture lecture = Lecture.builder()
+			.id(1L)
+			.title("hihi")
+			.status(LectureStatus.FUTURE)
+			.teacher(new Teacher())
+			.users(new ArrayList<LectureUser>())
+			.build();
+
+		given(lectureRepository.findById(anyLong())).willReturn(Optional.ofNullable(lecture));
+		doNothing().when(lectureRepository).deleteById(anyLong());
+
+		//when
+		LectureResponseDto result = lectureService.delete(1L);
+
+		//then
+		assertThat(result.getId()).isEqualTo(1L);
 	}
 }

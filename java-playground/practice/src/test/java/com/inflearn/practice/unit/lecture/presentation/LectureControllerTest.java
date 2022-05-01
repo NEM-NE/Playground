@@ -17,6 +17,7 @@ import com.inflearn.practice.exception.lecture.NoSuchLectureException;
 import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
 import com.inflearn.practice.lecture.domain.Category;
+import com.inflearn.practice.lecture.domain.LectureStatus;
 import com.inflearn.practice.lecture.presentation.dto.LectureAssembler;
 import com.inflearn.practice.lecture.presentation.dto.request.LectureRequest;
 import com.inflearn.practice.lecture.presentation.dto.response.LectureResponse;
@@ -210,15 +211,15 @@ class LectureControllerTest extends ControllerTest {
 	void update() throws Exception {
 		//given
 		final LectureRequest lectureRequest = LectureRequest.builder()
-				.title("testtest")
-				.description("changeContent")
-				.teacherId(1L)
-				.build();
+			.title("testtest")
+			.description("changeContent")
+			.teacherId(1L)
+			.build();
 
 		final LectureResponseDto lectureResponseDto = LectureResponseDto.builder()
-				.title("testtest")
-				.description("changeContent")
-				.build();
+			.title("testtest")
+			.description("changeContent")
+			.build();
 
 		final LectureResponse lectureResponse = LectureResponse.builder()
 			.title("testtest")
@@ -242,4 +243,85 @@ class LectureControllerTest extends ControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(content().string(responseBody));
 	}
+
+	@DisplayName("강좌 오픈")
+	@Test
+	void open() throws Exception {
+		//given
+		final LectureResponseDto lectureResponseDto = LectureResponseDto.builder()
+			.title("testtest")
+			.category(Category.APP)
+			.description("changeContent")
+			.status(LectureStatus.OPEN)
+			.build();
+
+		final LectureResponse lectureResponse = LectureResponse.builder()
+			.title("testtest")
+			.category(Category.APP)
+			.description("changeContent")
+			.status(LectureStatus.OPEN)
+			.build();
+
+		given(lectureService.open(anyLong())).willReturn(lectureResponseDto);
+
+		String responseBody = objectMapper.writeValueAsString(lectureResponse);
+
+		//when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.put("/lectures/lecture/open/1")
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+
+		//then
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(content().string(responseBody));
+	}
+
+	@DisplayName("강좌 삭제")
+	@Test
+	void delete() throws Exception {
+		//given
+		LectureResponseDto lectureResponseDto = LectureResponseDto.builder()
+			.id(1L)
+			.title("hihi")
+			.build();
+
+		LectureResponse lectureResponse = LectureResponse.builder()
+			.id(1L)
+			.title("hihi")
+			.build();
+
+		given(lectureService.delete(anyLong())).willReturn(lectureResponseDto);
+
+		String responseBody = objectMapper.writeValueAsString(lectureResponse);
+
+		//when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.delete("/lectures/lecture/1")
+		);
+
+		//then
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(content().string(responseBody));
+	}
+
+	@DisplayName("강좌를 삭제 - 존재하는 강좌가 없을 경우")
+	@Test
+	void delete_not_found() throws Exception {
+		//given
+		given(lectureService.delete(anyLong())).willThrow(new NoSuchLectureException());
+
+		//when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.delete("/lectures/lecture/1")
+		);
+
+		//then
+		resultActions
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("errorCode").value("AB404"));
+	}
+
 }

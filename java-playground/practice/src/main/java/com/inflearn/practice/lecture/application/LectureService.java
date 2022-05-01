@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.inflearn.practice.exception.lecture.NoSuchLectureException;
+import com.inflearn.practice.exception.lecture.NotEmptyLectureException;
 import com.inflearn.practice.lecture.application.dto.LectureDtoAssembler;
 import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
@@ -50,13 +51,36 @@ public class LectureService {
 		return result.getId();
 	}
 
+	@Transactional
 	public LectureResponseDto update(Long id, LectureRequestDto lectureRequestDto) {
 		Lecture lecture = lectureRepository.findById(id).orElseThrow(NoSuchLectureException::new);
 		//본인인지 검증 필요
 		lecture.update(lectureRequestDto);
 
-		Lecture newLecture = lectureRepository.save(lecture);
+		Lecture result = lectureRepository.save(lecture);
 
-		return LectureDtoAssembler.toLectureResponseDto(newLecture);
+		return LectureDtoAssembler.toLectureResponseDto(result);
+	}
+
+	@Transactional
+	public LectureResponseDto open(Long id){
+		Lecture lecture = lectureRepository.findById(id).orElseThrow(NoSuchLectureException::new);
+		lecture.openLecture();
+
+		Lecture result = lectureRepository.save(lecture);
+
+		return LectureDtoAssembler.toLectureResponseDto(result);
+	}
+
+	public LectureResponseDto delete(Long id) {
+		Lecture lecture = lectureRepository.findById(id).orElseThrow(NoSuchLectureException::new);
+
+		if(!lecture.getUsers().isEmpty()){
+			throw new NotEmptyLectureException();
+		}
+
+		lectureRepository.deleteById(id);
+
+		return LectureDtoAssembler.toLectureResponseDto(lecture);
 	}
 }

@@ -14,6 +14,7 @@ public class LectureDtoAssembler {
 		return LectureResponseDto.builder()
 			.id(lecture.getId())
 			.category(lecture.getCategory())
+			.status(lecture.getStatus())
 			.title(lecture.getTitle())
 			.price(lecture.getPrice())
 			.description(lecture.getDescription())
