@@ -8,8 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
+import com.inflearn.practice.lecture.application.dto.response.UserResponseDto;
 import com.inflearn.practice.lecture.presentation.dto.request.LectureRequest;
 import com.inflearn.practice.lecture.presentation.dto.response.LectureResponse;
+import com.inflearn.practice.lecture.presentation.dto.response.UserResponse;
 
 @Component
 public class LectureAssembler {
@@ -52,7 +54,13 @@ public class LectureAssembler {
 			.lastModifiedDate(lectureResponseDto.getLastModifiedDate())
 			.teacherName(lectureResponseDto.getTeacherName())
 			.teacherId(lectureResponseDto.getTeacherId())
-			.userSize(lectureResponseDto.getUserSize())
+			.users(lectureResponseDto.getUsers().stream().map(toUserResponse()).collect(Collectors.toList()))
 			.build();
+	}
+
+	private static Function<UserResponseDto, UserResponse> toUserResponse(){
+		return userResponseDto ->
+			new UserResponse(userResponseDto.getId(), userResponseDto.getEmail(), userResponseDto.getName(),
+				userResponseDto.getCreatedDate());
 	}
 }

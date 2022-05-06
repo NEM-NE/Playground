@@ -1,6 +1,7 @@
 package com.inflearn.practice.lecture.application.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.inflearn.practice.lecture.domain.Category;
 import com.inflearn.practice.lecture.domain.LectureStatus;
@@ -25,5 +26,5 @@ public class LectureResponseDto {
 	private LectureStatus status;
 	private String teacherName;
 	private Long teacherId;
-	private int userSize;
+	private List<UserResponseDto> users;
 }

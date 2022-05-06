@@ -18,7 +18,6 @@ import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
 import com.inflearn.practice.lecture.domain.Category;
 import com.inflearn.practice.lecture.domain.LectureStatus;
-import com.inflearn.practice.lecture.presentation.dto.LectureAssembler;
 import com.inflearn.practice.lecture.presentation.dto.request.LectureRequest;
 import com.inflearn.practice.lecture.presentation.dto.response.LectureResponse;
 import com.inflearn.practice.unit.ControllerTest;
@@ -113,7 +112,7 @@ class LectureControllerTest extends ControllerTest {
 			.category(Category.ALL)
 			.teacherName("nemne")
 			.teacherId(1L)
-			.userSize(10)
+			.users(new ArrayList<>())
 			.build();
 	}
 
@@ -126,7 +125,7 @@ class LectureControllerTest extends ControllerTest {
 			.category(Category.ALL)
 			.teacherName("nemne")
 			.teacherId(1L)
-			.userSize(10)
+			.users(new ArrayList<>())
 			.build();
 	}
 
@@ -219,11 +218,13 @@ class LectureControllerTest extends ControllerTest {
 		final LectureResponseDto lectureResponseDto = LectureResponseDto.builder()
 			.title("testtest")
 			.description("changeContent")
+			.users(new ArrayList<>())
 			.build();
 
 		final LectureResponse lectureResponse = LectureResponse.builder()
 			.title("testtest")
 			.description("changeContent")
+			.users(new ArrayList<>())
 			.build();
 
 		given(lectureService.update(anyLong(), any(LectureRequestDto.class))).willReturn(lectureResponseDto);
@@ -253,6 +254,7 @@ class LectureControllerTest extends ControllerTest {
 			.category(Category.APP)
 			.description("changeContent")
 			.status(LectureStatus.OPEN)
+			.users(new ArrayList<>())
 			.build();
 
 		final LectureResponse lectureResponse = LectureResponse.builder()
@@ -260,6 +262,7 @@ class LectureControllerTest extends ControllerTest {
 			.category(Category.APP)
 			.description("changeContent")
 			.status(LectureStatus.OPEN)
+			.users(new ArrayList<>())
 			.build();
 
 		given(lectureService.open(anyLong())).willReturn(lectureResponseDto);
@@ -285,11 +288,13 @@ class LectureControllerTest extends ControllerTest {
 		LectureResponseDto lectureResponseDto = LectureResponseDto.builder()
 			.id(1L)
 			.title("hihi")
+			.users(new ArrayList<>())
 			.build();
 
 		LectureResponse lectureResponse = LectureResponse.builder()
 			.id(1L)
 			.title("hihi")
+			.users(new ArrayList<>())
 			.build();
 
 		given(lectureService.delete(anyLong())).willReturn(lectureResponseDto);

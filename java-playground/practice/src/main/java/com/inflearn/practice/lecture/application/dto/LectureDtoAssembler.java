@@ -1,7 +1,12 @@
 package com.inflearn.practice.lecture.application.dto;
 
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
+import com.inflearn.practice.lecture.application.dto.response.UserResponseDto;
 import com.inflearn.practice.lecture.domain.Lecture;
+import com.inflearn.practice.lecture.domain.users.LectureUser;
 
 public class LectureDtoAssembler {
 
@@ -22,7 +27,13 @@ public class LectureDtoAssembler {
 			.lastModifiedDate(lecture.getLastModifiedDate())
 			.teacherId(lecture.getTeacher().getId())
 			.teacherName(lecture.getTeacher().getName())
-			.userSize(lecture.getUsers().size())
+			.users(lecture.getUsers().stream()
+				.map(toUserResponseDto()).collect(Collectors.toList()))
 			.build();
+	}
+
+	private static Function<LectureUser, UserResponseDto> toUserResponseDto(){
+		return user -> new UserResponseDto(user.getUser().getId(), user.getUser().getEmail(),
+			user.getUser().getName(), user.getUser().getCreatedDate());
 	}
 }
