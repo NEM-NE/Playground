@@ -1,5 +1,6 @@
 package com.inflearn.practice.lecture.application;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,7 @@ public class LectureService {
 			.price(lectureRequestDto.getPrice())
 			.teacher(null) // 추후에 불러오는 코드 추가
 			.status(LectureStatus.PAUSE)
+			.users(new ArrayList<>())
 			.build();
 
 		Lecture result = lectureRepository.save(lecture);
