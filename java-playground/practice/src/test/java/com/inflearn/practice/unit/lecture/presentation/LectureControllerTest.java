@@ -9,6 +9,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -17,6 +20,7 @@ import com.inflearn.practice.exception.lecture.NoSuchLectureException;
 import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
 import com.inflearn.practice.lecture.domain.Category;
+import com.inflearn.practice.lecture.domain.Filter;
 import com.inflearn.practice.lecture.domain.LectureStatus;
 import com.inflearn.practice.lecture.presentation.dto.request.LectureRequest;
 import com.inflearn.practice.lecture.presentation.dto.response.LectureResponse;
@@ -24,26 +28,26 @@ import com.inflearn.practice.unit.ControllerTest;
 
 class LectureControllerTest extends ControllerTest {
 
-	@DisplayName("모든 강좌 조회")
-	@Test
-	void findAll() throws Exception {
-		//given
-		List<LectureResponseDto> lectureResponseDtos = lectureResponseDtos();
-		given(lectureService.findAll()).willReturn(lectureResponseDtos);
-
-		List<LectureResponse> lectureResponses = lectureResponse();
-		String response = objectMapper.writeValueAsString(lectureResponses);
-
-		//when
-		final ResultActions resultActions = mockMvc.perform(
-			MockMvcRequestBuilders.get("/lectures")
-		);
-
-		//then
-		resultActions
-			.andExpect(status().isOk())
-			.andExpect(content().string(response));
-	}
+	// @DisplayName("모든 강좌 조회")
+	// @Test
+	// void findAll() throws Exception {
+	// 	//given
+	// 	List<LectureResponseDto> lectureResponseDtos = lectureResponseDtos();
+	// 	given(lectureService.findAll()).willReturn(lectureResponseDtos);
+	//
+	// 	List<LectureResponse> lectureResponses = lectureResponse();
+	// 	String response = objectMapper.writeValueAsString(lectureResponses);
+	//
+	// 	//when
+	// 	final ResultActions resultActions = mockMvc.perform(
+	// 		MockMvcRequestBuilders.get("/lectures")
+	// 	);
+	//
+	// 	//then
+	// 	resultActions
+	// 		.andExpect(status().isOk())
+	// 		.andExpect(content().string(response));
+	// }
 
 	private List<LectureResponseDto> lectureResponseDtos() {
 		List<LectureResponseDto> lectureResponseDtos = new ArrayList<>();
@@ -327,6 +331,28 @@ class LectureControllerTest extends ControllerTest {
 		resultActions
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("errorCode").value("AB404"));
+	}
+
+	@DisplayName("강의 목록 조회")
+	@Test
+	void findByPageable() throws Exception {
+		//given
+		List<LectureResponseDto> lectureResponseDtos = lectureResponseDtos();
+		List<LectureResponse> lectureResponses = lectureResponse();
+		String response = objectMapper.writeValueAsString(lectureResponses);
+
+		Pageable pageable = PageRequest.of(0, 10, Sort.Direction.DESC, "lastModifiedDate");
+		given(lectureService.findByPageable(anyString(), eq(Filter.LECTURE_NAME), eq(pageable))).willReturn(lectureResponseDtos);
+
+		//when
+		final ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.get("/lectures?keyword=hihi&filter=LECTURE_NAME&page=0&size=10&sort=lastModifiedDate,DESC")
+		);
+
+		//then
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(content().string(response));
 	}
 
 }

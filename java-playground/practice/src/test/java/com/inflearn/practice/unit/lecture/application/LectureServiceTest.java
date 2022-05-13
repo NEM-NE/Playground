@@ -14,17 +14,22 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 
 import com.inflearn.practice.exception.lecture.AlreadyOpenLectureException;
 import com.inflearn.practice.lecture.application.LectureService;
 import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
+import com.inflearn.practice.lecture.domain.Filter;
 import com.inflearn.practice.lecture.domain.Lecture;
 import com.inflearn.practice.lecture.domain.LectureStatus;
 import com.inflearn.practice.lecture.domain.repository.LectureRepository;
 import com.inflearn.practice.lecture.domain.users.LectureUser;
 import com.inflearn.practice.teacher.domain.Teacher;
+import com.inflearn.practice.user.domain.User;
 
 @ExtendWith(MockitoExtension.class)
 class LectureServiceTest {
@@ -46,6 +51,24 @@ class LectureServiceTest {
 
 		//when
 		List<LectureResponseDto> list = lectureService.findAll();
+
+		//then
+		assertThat(list).hasSize(2);
+	}
+
+	@DisplayName("강의 목록 조회 - 유저 이름")
+	@Test
+	void findByPageable() {
+		//given
+		List<Lecture> lectureList = new ArrayList<Lecture>();
+		lectureList.add(Lecture.builder().id(1L).title("test").users(new ArrayList<LectureUser>()).teacher(new Teacher()).build());
+		lectureList.add(Lecture.builder().id(2L).title("test").users(new ArrayList<LectureUser>()).teacher(new Teacher()).build());
+
+		Pageable pageable = PageRequest.of(0, 10, Sort.Direction.DESC, "lastModifiedDate");
+		given(lectureRepository.findByTitle(anyString(), eq(pageable))).willReturn(lectureList);
+
+		//when
+		List<LectureResponseDto> list = lectureService.findByPageable("test", Filter.LECTURE_NAME, pageable);
 
 		//then
 		assertThat(list).hasSize(2);
@@ -187,7 +210,7 @@ class LectureServiceTest {
 
 	@DisplayName("강좌를 삭제한다.")
 	@Test
-	void delete(){
+	void delete() {
 		//given
 		Lecture lecture = Lecture.builder()
 			.id(1L)

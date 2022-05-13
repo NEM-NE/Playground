@@ -2,6 +2,9 @@ package com.inflearn.practice.lecture.presentation;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,11 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inflearn.practice.lecture.application.LectureService;
 import com.inflearn.practice.lecture.application.dto.request.LectureRequestDto;
 import com.inflearn.practice.lecture.application.dto.response.LectureResponseDto;
+import com.inflearn.practice.lecture.domain.Filter;
 import com.inflearn.practice.lecture.presentation.dto.LectureAssembler;
 import com.inflearn.practice.lecture.presentation.dto.request.LectureRequest;
 import com.inflearn.practice.lecture.presentation.dto.response.LectureResponse;
@@ -30,12 +35,21 @@ public class LectureController {
 	private final LectureService lectureService;
 
 	@GetMapping
-	public ResponseEntity<List<LectureResponse>> findAll() {
-		List<LectureResponseDto> lectureResponseDtoList = lectureService.findAll();
+	public ResponseEntity<List<LectureResponse>> findByPageable(@RequestParam String keyword, @RequestParam Filter filter,
+		@PageableDefault(sort = "lastModifiedDate", direction = Sort.Direction.DESC) Pageable pageable) {
+		List<LectureResponseDto> lectureResponseDtoList = lectureService.findByPageable(keyword, filter, pageable);
 		List<LectureResponse> lectureResponses = LectureAssembler.toLectureResponses(lectureResponseDtoList);
 
 		return ResponseEntity.ok(lectureResponses);
 	}
+
+	// @GetMapping
+	// public ResponseEntity<List<LectureResponse>> findAll() {
+	// 	List<LectureResponseDto> lectureResponseDtoList = lectureService.findAll();
+	// 	List<LectureResponse> lectureResponses = LectureAssembler.toLectureResponses(lectureResponseDtoList);
+	//
+	// 	return ResponseEntity.ok(lectureResponses);
+	// }
 
 	@GetMapping("/lecture/{id}")
 	public ResponseEntity<LectureResponse> findById(@PathVariable Long id) {
