@@ -3,6 +3,8 @@ package com.inflearn.practice.lecture.domain.users;
 import com.inflearn.practice.lecture.domain.Lecture;
 import com.inflearn.practice.user.domain.User;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,8 +13,10 @@ import javax.persistence.*;
 
 @Setter
 @Getter
+@Builder
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class LectureUser {
 
 	@Id
