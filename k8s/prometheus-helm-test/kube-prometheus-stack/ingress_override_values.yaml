@@ -1,0 +1,41 @@
+prometheus:
+  # change here
+  prometheusSpec:
+    routePrefix: /prom
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
+          selector:
+            matchLabels:
+              app: my-example-prometheus
+  ingress:
+    ingressClassName: nginx
+    enabled: true
+    # change here
+    hosts:
+      - nemne-local
+    # change here
+    paths:
+      - /prom
+      
+grafana:
+  adminPassword: password1234
+  ingress:
+    ingressClassName: nginx
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # change here
+    path: /test(/|$)(.*)
+    hosts:
+      - nemne-local
+  grafana.ini:
+    server:
+      # change here
+      domain: nemne-local
+      root_url: http://nemne-local/test/
+      serve_from_sub_path: true
