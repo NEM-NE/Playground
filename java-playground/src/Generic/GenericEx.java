@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class GenericEx {
-    public static void main(String[] args) {
+    public static <T> void main(String[] args) {
 //        Box<Toy> box = new Box<Toy>();
 //        ArrayList<? extends Fruit> list = new ArrayList<>();
 //        list.add(new Toy());
-
     }
 }
 

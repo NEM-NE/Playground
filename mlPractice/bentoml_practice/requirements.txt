@@ -1,0 +1,6 @@
+bentoml
+bentoctl
+grpcio
+transformers
+torch
+torchvision

@@ -1,0 +1,13 @@
+2022-07-04 23:12:23,569 WARN  [DefaultSoapUICore] Missing folder [/Users/imseongbin/ext] for external libraries
+2022-07-04 23:12:23,843 INFO  [DefaultSoapUICore] initialized soapui-settings from [/Users/imseongbin/soapui-settings.xml]
+2022-07-04 23:12:24,279 INFO  [WorkspaceImpl] Loading workspace from [/Users/imseongbin/intellij-soapui-workspace.xml]
+2022-07-04 23:25:07,307 INFO  [WorkspaceImpl] Saved workspace to [/Users/imseongbin/intellij-soapui-workspace.xml]
+2022-07-04 23:25:07,310 INFO  [DefaultSoapUICore] Settings saved to [/Users/imseongbin/soapui-settings.xml]
+2022-07-04 23:53:36,380 INFO  [WorkspaceImpl] Saved workspace to [/Users/imseongbin/intellij-soapui-workspace.xml]
+2022-07-04 23:53:36,382 INFO  [DefaultSoapUICore] Settings saved to [/Users/imseongbin/soapui-settings.xml]
+2022-07-05 00:33:24,112 INFO  [WorkspaceImpl] Saved workspace to [/Users/imseongbin/intellij-soapui-workspace.xml]
+2022-07-05 00:33:24,114 INFO  [DefaultSoapUICore] Settings saved to [/Users/imseongbin/soapui-settings.xml]
+2022-07-05 00:33:24,798 INFO  [WorkspaceImpl] Saved workspace to [/Users/imseongbin/intellij-soapui-workspace.xml]
+2022-07-05 00:33:24,798 INFO  [DefaultSoapUICore] Settings saved to [/Users/imseongbin/soapui-settings.xml]
+2022-07-05 02:20:19,202 INFO  [WorkspaceImpl] Saved workspace to [/Users/imseongbin/intellij-soapui-workspace.xml]
+2022-07-05 02:20:19,204 INFO  [DefaultSoapUICore] Settings saved to [/Users/imseongbin/soapui-settings.xml]

@@ -17,7 +17,7 @@ prometheus:
     enabled: true
     # change here
     hosts:
-      - nemne-local
+      - nemne-local.com
     # change here
     paths:
       - /prom
@@ -32,10 +32,10 @@ grafana:
     # change here
     path: /test(/|$)(.*)
     hosts:
-      - nemne-local
+      - nemne-local.com
   grafana.ini:
     server:
       # change here
-      domain: nemne-local
-      root_url: http://nemne-local/test/
+      domain: nemne-local.com
+      root_url: http://nemne-local.com/test/
       serve_from_sub_path: true

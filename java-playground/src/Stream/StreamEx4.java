@@ -14,7 +14,7 @@ public class StreamEx4 {
         list.parallelStream().map(i -> i).forEach(System.out::println);
 
 
-        list.stream().map(i -> i*100).collect(Collectors.joining())
+//        list.stream().map(i -> i*100).collect(Collectors.joining());
     }
 }
 
