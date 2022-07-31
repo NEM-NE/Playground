@@ -1,0 +1,28 @@
+elasticsearch:
+  replicas: 1
+  minimumMasterNodes: 1
+  clusterHealthCheckParams: 'wait_for_status=yellow&timeout=200s'
+  image: "docker.elastic.co/elasticsearch/elasticsearch"
+  imageTag: "7.11.2"
+  volumeClaimTemplate:
+    # storageClassName: ""
+    accessModes: [ "ReadWriteOnce" ]
+    resources:
+      requests:
+        storage: 100Gi
+  extraInitContainers: |
+    - name: file-permissions
+      image: "{{ .Values.image }}:{{ .Values.imageTag }}"
+      command: ['chown', '-R', '1000:1000', '/usr/share/elasticsearch/data']
+
+kibana:
+  image: "docker.elastic.co/kibana/kibana"
+  imageTag: "7.11.2"
+  extraEnvs:
+    - name: "NODE_OPTIONS"
+      value: "--max-old-space-size=1800"
+    - name: "XPACK_LICENCE_MONITORING"
+      value: "XPACK_MONITORING_ENABLED=false"
+  elasticsearchHosts: "http://elasticsearch-master.efk.svc:9200"
+  service:
+    type: NodePort

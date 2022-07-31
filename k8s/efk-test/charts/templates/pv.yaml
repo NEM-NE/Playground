@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ealsticsearch-1
+  namespace: efk
+  labels:
+    type: efk
+spec:
+  storageClassName: ""
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/efk/elasticsearch-1"
+  claimRef:
+    namespace: efk
+    name: elasticsearch-master-elasticsearch-master-1
