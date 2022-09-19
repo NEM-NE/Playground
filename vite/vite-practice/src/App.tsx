@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import Header from "./components/header"
+import Navigation from "./components/navigation"
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App text-3xl font-bold underline">
-     hello world
+    <div className="h-auto">
+      <Header/>
+      <Navigation />
+      Hello World. APP PAGE
     </div>
   )
 }
