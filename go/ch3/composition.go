@@ -4,10 +4,69 @@ import "fmt"
 
 func main() {
 	//array()
-	fmt.Println("Slice Practice")
 	//slice()
 	//runeAndString()
-	mapPractice()
+	//mapPractice()
+	structPractice()
+}
+
+func structPractice() {
+	type person struct {
+		name string
+		age  int
+		pet  string
+	}
+
+	bob := person{}
+	fmt.Println(bob)
+	julia := person{ // simple struct literal way
+		"julia",
+		42,
+		"dog",
+	}
+	fmt.Println(julia)
+	fmt.Println(julia.age)
+
+	beth := person{ // it's recommend way because when add property, then occur compile error
+		name: "beth",
+		age:  42,
+	}
+	fmt.Println(beth)
+
+	//anonymous struct
+
+	var person2 struct {
+		name string
+		age  int
+		pet  string
+	}
+	person2.pet = "hi"
+
+	pet := struct {
+		name string
+		kind string
+	}{
+		name: "messi",
+		kind: "welsikogi",
+	}
+	fmt.Println(pet)
+
+	result := person(person2) // if other struct equal property type, order, name then can compare with current struct
+	fmt.Println(result)
+
+	type petType struct {
+		name string
+		kind string
+	}
+
+	// anonymous struct type can compare with other struct that equal property type, order, name
+	myPet := petType{
+		name: "messi",
+		kind: "welsikogi",
+	}
+
+	fmt.Println(myPet == pet)
+
 }
 
 func mapPractice() {
@@ -27,6 +86,38 @@ func mapPractice() {
 
 	newMap := make(map[string][]string, 10)
 	fmt.Println(newMap != nil)
+
+	m := map[string]int{
+		"hello": 5,
+		"world": 0,
+	}
+
+	v, ok := m["hello"] // comma ok idiom -> check that empty key
+	fmt.Println(v, ok)
+
+	v, ok = m["world"]
+	fmt.Println(v, ok)
+
+	v, ok = m["test"]
+	fmt.Println(v, ok)
+
+	delete(m, "hello")
+	fmt.Println(m)
+
+	//set
+	intSet := map[int]bool{}
+	vals := []int{5, 10, 2, 5, 8, 7, 3, 9, 1, 2, 10}
+	for _, v := range vals {
+		intSet[v] = true
+	}
+	fmt.Println(len(vals), len(intSet))
+	fmt.Println(intSet[5])
+	fmt.Println(intSet[500])
+	if intSet[100] {
+		fmt.Println("100 is in the set")
+	} else {
+		fmt.Println("100 is not in the set")
+	}
 }
 
 func runeAndString() {
