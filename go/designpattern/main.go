@@ -1,6 +1,7 @@
 package main
 
 import (
+	"designpattern/adapter"
 	"designpattern/afactory"
 	"designpattern/singleton"
 	"fmt"
@@ -8,13 +9,15 @@ import (
 
 func main() {
 	//testAbstractFactory()
-	instance := singleton.NewTon()
-	instance.SetName("sungbin")
-	instance.SetAge(24)
+	//testSingleton()
 
-	instance2 := singleton.NewTon()
-	fmt.Println(instance2.Name())
-	fmt.Println(instance2.Age())
+	duck := adapter.Duck{}
+	adapter.AdapterTest(duck)
+
+	turkeyAdapter := adapter.TurkeyAdapter{}
+	turkey := adapter.Turkey{}
+	turkeyAdapter.SetTurkey(turkey)
+	adapter.AdapterTest(turkeyAdapter)
 
 }
 
@@ -26,4 +29,14 @@ func testAbstractFactory() {
 	nikeFactory, _ := afactory.GetSportsFactory("nike")
 	nikeShoe := nikeFactory.MakeShoe()
 	afactory.PrintShoeDetails(nikeShoe)
+}
+
+func testSingleton() {
+	instance := singleton.NewTon()
+	instance.SetName("sungbin")
+	instance.SetAge(24)
+
+	instance2 := singleton.NewTon()
+	fmt.Println(instance2.Name())
+	fmt.Println(instance2.Age())
 }
