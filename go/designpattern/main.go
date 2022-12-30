@@ -1,10 +1,10 @@
 package main
 
 import (
-	"designpattern/adapter"
 	"designpattern/afactory"
 	"designpattern/singleton"
 	"fmt"
+	"github.com/nem-ne/Playground/go/designpattern/adapter"
 )
 
 func main() {
