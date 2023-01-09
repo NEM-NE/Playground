@@ -8,12 +8,12 @@ func (lp LogicProvider) Process(data string) string {
 	return fmt.Sprintf("My name is %s", "sungbin")
 }
 
-type Logic interface {
+type Logic2 interface {
 	Process(data string) string
 }
 
 type Client struct {
-	L Logic
+	L Logic2
 }
 
 func (c Client) Program() {

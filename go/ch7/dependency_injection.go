@@ -29,8 +29,10 @@ func NewSimpleDataStore() SimpleDataStore {
 	}
 }
 
+// 만약 다른 Logger를, 다른 SimpleDataStore를 사용하고 싶다면
 // 위 코드들에 종속되지 않게 하고 싶음
 
+// 구조체인 경우
 type DataStore interface {
 	UserNameForID(userID string) (string, bool)
 }
@@ -39,8 +41,11 @@ type Logger interface {
 	Log(message string)
 }
 
+// 함수인 경우
+
 type LoggerAdapter func(message string)
 
+// Logger 인터페이스와 동일한 함수를 가지고 있기 때문에 LoggerAdapter는 Logger로 변환할 수 있다.
 func (lg LoggerAdapter) Log(message string) {
 	lg(message)
 }
@@ -97,11 +102,11 @@ func NewController(l Logger, logic Logic) Controller {
 }
 
 func main() {
-	l := LoggerAdapter(LogOutput)
+	l := LoggerAdapter(LogOutput) //LogOutput과 LoggerAdapter의 함수 타입이 동일하기 때문에 변환이 가능하다.
 	ds := NewSimpleDataStore()
 	logic := NewSimpleLogic(l, ds)
 	c := NewController(l, logic)
 
-	http.HandlerFunc("/hello", c.HandleGreeting)
+	http.HandleFunc("/hello", c.HandleGreeting)
 	http.ListenAndServe(":8080", nil)
 }
